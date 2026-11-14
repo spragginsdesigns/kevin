@@ -1,0 +1,12 @@
+node_modules/
+dist/
+target/
+.env
+.env.*
+*.key.json
+neardev/
+.kevin/
+.near-credentials/
+*.log
+proof-out/
+.DS_Store

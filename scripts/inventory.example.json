@@ -1,0 +1,8 @@
+[
+  { "vendor": "Microsoft", "product": "Windows" },
+  { "vendor": "Microsoft", "product": "Exchange" },
+  { "vendor": "Apple" },
+  { "vendor": "Google", "product": "Chromium" },
+  { "vendor": "Fortinet", "product": "FortiOS" },
+  { "vendor": "Ivanti" }
+]

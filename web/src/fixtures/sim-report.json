@@ -1,0 +1,521 @@
+{
+ "placeholder": true,
+ "note": "Placeholder computed in the web lane for two holder types only; replaced by data/sim-report.json from npm run sim.",
+ "catalogVersion": "2026.11.13",
+ "sourceSha256": "4028ec035856331a717d3305e87e45be37d400fc500da34a5464f05fc2773764",
+ "from": "2021-11-03",
+ "to": "2026-11-13",
+ "tickets": 1781,
+ "missBps": 100,
+ "ransomMissBps": 500,
+ "holders": [
+  {
+   "id": "on_call",
+   "label": "On call (answers the day a ticket opens)",
+   "answered": 1773,
+   "missed": 0,
+   "missedRansomware": 0,
+   "keptBps": 10000,
+   "series": [
+    {
+     "date": "2021-11-30",
+     "keptBps": 10000
+    },
+    {
+     "date": "2021-12-31",
+     "keptBps": 10000
+    },
+    {
+     "date": "2022-01-31",
+     "keptBps": 10000
+    },
+    {
+     "date": "2022-02-28",
+     "keptBps": 10000
+    },
+    {
+     "date": "2022-03-31",
+     "keptBps": 10000
+    },
+    {
+     "date": "2022-04-30",
+     "keptBps": 10000
+    },
+    {
+     "date": "2022-05-31",
+     "keptBps": 10000
+    },
+    {
+     "date": "2022-06-30",
+     "keptBps": 10000
+    },
+    {
+     "date": "2022-07-31",
+     "keptBps": 10000
+    },
+    {
+     "date": "2022-08-31",
+     "keptBps": 10000
+    },
+    {
+     "date": "2022-09-30",
+     "keptBps": 10000
+    },
+    {
+     "date": "2022-10-31",
+     "keptBps": 10000
+    },
+    {
+     "date": "2022-11-30",
+     "keptBps": 10000
+    },
+    {
+     "date": "2022-12-31",
+     "keptBps": 10000
+    },
+    {
+     "date": "2023-01-31",
+     "keptBps": 10000
+    },
+    {
+     "date": "2023-02-28",
+     "keptBps": 10000
+    },
+    {
+     "date": "2023-03-31",
+     "keptBps": 10000
+    },
+    {
+     "date": "2023-04-30",
+     "keptBps": 10000
+    },
+    {
+     "date": "2023-05-31",
+     "keptBps": 10000
+    },
+    {
+     "date": "2023-06-30",
+     "keptBps": 10000
+    },
+    {
+     "date": "2023-07-31",
+     "keptBps": 10000
+    },
+    {
+     "date": "2023-08-31",
+     "keptBps": 10000
+    },
+    {
+     "date": "2023-09-30",
+     "keptBps": 10000
+    },
+    {
+     "date": "2023-10-31",
+     "keptBps": 10000
+    },
+    {
+     "date": "2023-11-30",
+     "keptBps": 10000
+    },
+    {
+     "date": "2023-12-31",
+     "keptBps": 10000
+    },
+    {
+     "date": "2024-01-31",
+     "keptBps": 10000
+    },
+    {
+     "date": "2024-02-29",
+     "keptBps": 10000
+    },
+    {
+     "date": "2024-03-31",
+     "keptBps": 10000
+    },
+    {
+     "date": "2024-04-30",
+     "keptBps": 10000
+    },
+    {
+     "date": "2024-05-31",
+     "keptBps": 10000
+    },
+    {
+     "date": "2024-06-30",
+     "keptBps": 10000
+    },
+    {
+     "date": "2024-07-31",
+     "keptBps": 10000
+    },
+    {
+     "date": "2024-08-31",
+     "keptBps": 10000
+    },
+    {
+     "date": "2024-09-30",
+     "keptBps": 10000
+    },
+    {
+     "date": "2024-10-31",
+     "keptBps": 10000
+    },
+    {
+     "date": "2024-11-30",
+     "keptBps": 10000
+    },
+    {
+     "date": "2024-12-31",
+     "keptBps": 10000
+    },
+    {
+     "date": "2025-01-31",
+     "keptBps": 10000
+    },
+    {
+     "date": "2025-02-28",
+     "keptBps": 10000
+    },
+    {
+     "date": "2025-03-31",
+     "keptBps": 10000
+    },
+    {
+     "date": "2025-04-30",
+     "keptBps": 10000
+    },
+    {
+     "date": "2025-05-31",
+     "keptBps": 10000
+    },
+    {
+     "date": "2025-06-30",
+     "keptBps": 10000
+    },
+    {
+     "date": "2025-07-31",
+     "keptBps": 10000
+    },
+    {
+     "date": "2025-08-31",
+     "keptBps": 10000
+    },
+    {
+     "date": "2025-09-30",
+     "keptBps": 10000
+    },
+    {
+     "date": "2025-10-31",
+     "keptBps": 10000
+    },
+    {
+     "date": "2025-11-30",
+     "keptBps": 10000
+    },
+    {
+     "date": "2025-12-31",
+     "keptBps": 10000
+    },
+    {
+     "date": "2026-01-31",
+     "keptBps": 10000
+    },
+    {
+     "date": "2026-02-28",
+     "keptBps": 10000
+    },
+    {
+     "date": "2026-03-31",
+     "keptBps": 10000
+    },
+    {
+     "date": "2026-04-30",
+     "keptBps": 10000
+    },
+    {
+     "date": "2026-05-31",
+     "keptBps": 10000
+    },
+    {
+     "date": "2026-06-30",
+     "keptBps": 10000
+    },
+    {
+     "date": "2026-07-31",
+     "keptBps": 10000
+    },
+    {
+     "date": "2026-08-31",
+     "keptBps": 10000
+    },
+    {
+     "date": "2026-09-30",
+     "keptBps": 10000
+    },
+    {
+     "date": "2026-10-31",
+     "keptBps": 10000
+    },
+    {
+     "date": "2026-11-13",
+     "keptBps": 10000
+    }
+   ]
+  },
+  {
+   "id": "ghost",
+   "label": "Ghost (never answers)",
+   "answered": 0,
+   "missed": 1773,
+   "missedRansomware": 361,
+   "keptBps": 0,
+   "series": [
+    {
+     "date": "2021-11-30",
+     "keptBps": 1039
+    },
+    {
+     "date": "2021-12-31",
+     "keptBps": 742
+    },
+    {
+     "date": "2022-01-31",
+     "keptBps": 720
+    },
+    {
+     "date": "2022-02-28",
+     "keptBps": 547
+    },
+    {
+     "date": "2022-03-31",
+     "keptBps": 113
+    },
+    {
+     "date": "2022-04-30",
+     "keptBps": 6
+    },
+    {
+     "date": "2022-05-31",
+     "keptBps": 0
+    },
+    {
+     "date": "2022-06-30",
+     "keptBps": 0
+    },
+    {
+     "date": "2022-07-31",
+     "keptBps": 0
+    },
+    {
+     "date": "2022-08-31",
+     "keptBps": 0
+    },
+    {
+     "date": "2022-09-30",
+     "keptBps": 0
+    },
+    {
+     "date": "2022-10-31",
+     "keptBps": 0
+    },
+    {
+     "date": "2022-11-30",
+     "keptBps": 0
+    },
+    {
+     "date": "2022-12-31",
+     "keptBps": 0
+    },
+    {
+     "date": "2023-01-31",
+     "keptBps": 0
+    },
+    {
+     "date": "2023-02-28",
+     "keptBps": 0
+    },
+    {
+     "date": "2023-03-31",
+     "keptBps": 0
+    },
+    {
+     "date": "2023-04-30",
+     "keptBps": 0
+    },
+    {
+     "date": "2023-05-31",
+     "keptBps": 0
+    },
+    {
+     "date": "2023-06-30",
+     "keptBps": 0
+    },
+    {
+     "date": "2023-07-31",
+     "keptBps": 0
+    },
+    {
+     "date": "2023-08-31",
+     "keptBps": 0
+    },
+    {
+     "date": "2023-09-30",
+     "keptBps": 0
+    },
+    {
+     "date": "2023-10-31",
+     "keptBps": 0
+    },
+    {
+     "date": "2023-11-30",
+     "keptBps": 0
+    },
+    {
+     "date": "2023-12-31",
+     "keptBps": 0
+    },
+    {
+     "date": "2024-01-31",
+     "keptBps": 0
+    },
+    {
+     "date": "2024-02-29",
+     "keptBps": 0
+    },
+    {
+     "date": "2024-03-31",
+     "keptBps": 0
+    },
+    {
+     "date": "2024-04-30",
+     "keptBps": 0
+    },
+    {
+     "date": "2024-05-31",
+     "keptBps": 0
+    },
+    {
+     "date": "2024-06-30",
+     "keptBps": 0
+    },
+    {
+     "date": "2024-07-31",
+     "keptBps": 0
+    },
+    {
+     "date": "2024-08-31",
+     "keptBps": 0
+    },
+    {
+     "date": "2024-09-30",
+     "keptBps": 0
+    },
+    {
+     "date": "2024-10-31",
+     "keptBps": 0
+    },
+    {
+     "date": "2024-11-30",
+     "keptBps": 0
+    },
+    {
+     "date": "2024-12-31",
+     "keptBps": 0
+    },
+    {
+     "date": "2025-01-31",
+     "keptBps": 0
+    },
+    {
+     "date": "2025-02-28",
+     "keptBps": 0
+    },
+    {
+     "date": "2025-03-31",
+     "keptBps": 0
+    },
+    {
+     "date": "2025-04-30",
+     "keptBps": 0
+    },
+    {
+     "date": "2025-05-31",
+     "keptBps": 0
+    },
+    {
+     "date": "2025-06-30",
+     "keptBps": 0
+    },
+    {
+     "date": "2025-07-31",
+     "keptBps": 0
+    },
+    {
+     "date": "2025-08-31",
+     "keptBps": 0
+    },
+    {
+     "date": "2025-09-30",
+     "keptBps": 0
+    },
+    {
+     "date": "2025-10-31",
+     "keptBps": 0
+    },
+    {
+     "date": "2025-11-30",
+     "keptBps": 0
+    },
+    {
+     "date": "2025-12-31",
+     "keptBps": 0
+    },
+    {
+     "date": "2026-01-31",
+     "keptBps": 0
+    },
+    {
+     "date": "2026-02-28",
+     "keptBps": 0
+    },
+    {
+     "date": "2026-03-31",
+     "keptBps": 0
+    },
+    {
+     "date": "2026-04-30",
+     "keptBps": 0
+    },
+    {
+     "date": "2026-05-31",
+     "keptBps": 0
+    },
+    {
+     "date": "2026-06-30",
+     "keptBps": 0
+    },
+    {
+     "date": "2026-07-31",
+     "keptBps": 0
+    },
+    {
+     "date": "2026-08-31",
+     "keptBps": 0
+    },
+    {
+     "date": "2026-09-30",
+     "keptBps": 0
+    },
+    {
+     "date": "2026-10-31",
+     "keptBps": 0
+    },
+    {
+     "date": "2026-11-13",
+     "keptBps": 0
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,122 @@
+{
+  "network": "testnet",
+  "operator": "kevin-it.testnet",
+  "wasm": "contract/res/kevin.wasm",
+  "wasm_sha256": "931ea874f59de2dede6ba2a15be58fa262e188b7344d9230a2462789d4076c2f",
+  "code_hash": "AuJ3ei6JLBFr7Fto5CJriMSf2xcDLgAt9YTxGCFkntrr",
+  "live": {
+    "contract": "pager.kevin-it.testnet",
+    "reporters": [
+      "rep1.kevin-it.testnet",
+      "rep2.kevin-it.testnet",
+      "rep3.kevin-it.testnet"
+    ],
+    "quorum": 2,
+    "min_window_ms": "3600000",
+    "max_open": 128,
+    "min_commit": "1000000000000000000000",
+    "min_shift_ms": "604800000",
+    "deploy_tx": "8Menwx5e6WYhkeZ5NfhQ716tNwcFnkXjbogFJW1UMxF6",
+    "lock_tx": "HDfUKBXX8kdUKeXHuDZ9XcWxRehPfEXHjU62xR1iMkBN"
+  },
+  "drill": {
+    "contract": "firedrill.kevin-it.testnet",
+    "reporters": [
+      "drillrep1.kevin-it.testnet",
+      "drillrep2.kevin-it.testnet"
+    ],
+    "quorum": 2,
+    "min_window_ms": "60000",
+    "max_open": 128,
+    "min_commit": "1000000000000000000000",
+    "min_shift_ms": "1800000",
+    "deploy_tx": "52D5eA9s7nvC4Gwya43QPKR1MspwPYrTmzgPvRYprxYv",
+    "lock_tx": "2CQBPQSiYiW2iLUE7Q21TrA8xcABCiLDNui419zEauh6",
+    "recorded_round": {
+      "deadline": "2026-11-14T11:16:48.561Z",
+      "tickets": [
+        {
+          "id": 0,
+          "cve_id": "CVE-2021-44228",
+          "burn_bps": 500,
+          "burned": "375000000000000000000",
+          "missed": 2
+        },
+        {
+          "id": 1,
+          "cve_id": "CVE-2014-0160",
+          "burn_bps": 100,
+          "burned": "23750000000000000000",
+          "missed": 1
+        }
+      ],
+      "holders": [
+        {
+          "account": "bob.kevin-it.testnet",
+          "on_call": true,
+          "committed": "10000000000000000000000",
+          "statements": [
+            "not_affected",
+            "not_affected"
+          ]
+        },
+        {
+          "account": "alice.kevin-it.testnet",
+          "on_call": true,
+          "committed": "5000000000000000000000",
+          "statements": [
+            null,
+            "fixed"
+          ]
+        },
+        {
+          "account": "carol.kevin-it.testnet",
+          "on_call": true,
+          "committed": "5000000000000000000000",
+          "statements": [
+            "mitigated",
+            "not_affected"
+          ]
+        },
+        {
+          "account": "ghost.kevin-it.testnet",
+          "on_call": true,
+          "committed": "2500000000000000000000",
+          "statements": [
+            null,
+            null
+          ]
+        },
+        {
+          "account": "dave.kevin-it.testnet",
+          "on_call": false,
+          "committed": "0",
+          "statements": [
+            null,
+            null
+          ]
+        }
+      ]
+    }
+  },
+  "demo_accounts": {
+    "on_call_bot": "bob.kevin-it.testnet",
+    "never_answers": "ghost.kevin-it.testnet",
+    "part_time_bot": "alice.kevin-it.testnet",
+    "answers_by_hand": "carol.kevin-it.testnet",
+    "only_holds": "dave.kevin-it.testnet"
+  },
+  "expected_failures": [
+    "F7yTWt7JG8XqkL74YZ4PZvDVxFbgVsvwEtWZggKqn2QV",
+    "BGYXM9a2uhfC8ig2pDtmiherXFhaDJKhFuQ8F3oSKn2C",
+    "334fba4A6T59zSQ5AgrZVMLrYzbcGkJBuxYsv3YvGDMq",
+    "8HR151DFo7iM25qRUHu7vNCtYNtCJVbiK79ujqMBjSXP",
+    "EUPCE8jc7KwCaxfzoJzGAFoJwioSfHTZxE8wjWZqnRiu"
+  ],
+  "first_version": {
+    "note": "The first deployment, where every holder was liable. Keyless and unchanged; nothing in this repository depends on it.",
+    "live": "coin.kevin-it.testnet",
+    "drill": "drill.kevin-it.testnet",
+    "wasm_sha256": "4046357970ecfc04d53318db6f06c3040c50d273e3cf38a681e7bf2dd6b69b9a"
+  }
+}
