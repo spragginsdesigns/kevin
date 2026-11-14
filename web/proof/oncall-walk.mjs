@@ -141,7 +141,7 @@ async function walk(browser, vp) {
   const firstOpen = await page.$('.tickets .ticket:not(.is-lapsed)');
   const cve = await firstOpen.$eval('.cve', (e) => e.textContent.trim());
   await press(vp, await firstOpen.$('.btn-answer:nth-child(2)'));
-  const toast2 = await waitText(page, '.toast', /Noted\. That is one more reply than most people send\./);
+  const toast2 = await waitText(page, '.toast', /Noted\. That's one more reply than most people send\. I'm telling everyone\./);
   const t0 = Date.now();
   const youRow = await waitText(page, '.roster-row.is-you', /Helpdesk, Tier 1/, 20000);
   const rowMs = Date.now() - t0;
@@ -151,7 +151,7 @@ async function walk(browser, vp) {
 
   // 5. clock out: shift not over
   await pressText(page, vp, '[data-action="clock-out"]', /Clock out/);
-  const refusal1 = await waitText(page, '.refusal', /Your shift ends .* You took the pager\. The pager does not care\./);
+  const refusal1 = await waitText(page, '.refusal', /Your shift ends .* You took the pager\. The pager doesn't care\. I care a little\./);
   check(vp, 'clock out refused: shift', true, refusal1);
   shots.push(await shotOf(page, vp, '07-refused-shift', '.shift'));
 
@@ -179,7 +179,7 @@ async function walk(browser, vp) {
 
   // 8. clock out
   await pressText(page, vp, '[data-action="clock-out"]', /Clock out/);
-  const toast3 = await waitText(page, '.toast', /Pager returned\. Tokens returned\. Kevin remains\./);
+  const toast3 = await waitText(page, '.toast', /Pager returned\. Tokens returned\. I'm still here\. I'm always here\./);
   await page.waitForSelector('.pager', { timeout: 20000 });
   await sleep(800);
   const backLine = await text(page, '.desk .kevin-line-text');
@@ -195,7 +195,7 @@ async function walk(browser, vp) {
 
   // Other states, same viewport
   const states = [
-    ['11-empty-roster', '?mock=1&roster=0', '.eotm', /Nobody has taken the pager yet\. The plaque is still in its bubble wrap\./],
+    ['11-empty-roster', '?mock=1&roster=0', '.eotm', /Nobody's taken the pager yet\. The plaque is still in its bubble wrap\. I haven't popped any\. Okay, I popped one\./],
     ['12-roster-error', '?mock=1&fail=roster', '.eotm', /could not be loaded/],
     ['13-drill', '?mock=1&desk=drill', '.board', /KEVIN FROM IT/],
     ['14-rpc-down', '?mock=1&fail=rpc', '.board', /could not be read/],

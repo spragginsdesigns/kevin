@@ -73,17 +73,19 @@ test('headline 3: no open tickets (expired ones do not count, nor a ticket whose
 
 test('quote 1: nobody on call beats everything', () => {
   const tickets = [ticket({ deadline: -H, missed: 4 }), ticket()];
-  assert.equal(quote({ stats: stats({ on_call: 0 }), tickets, now: NOW }), 'The pager is on my desk. It is ringing. Nobody is on call.');
+  assert.equal(quote({ stats: stats({ on_call: 0 }), tickets, now: NOW }), "Nobody's on call. The pager keeps ringing anyway. I think it's lonely.");
 });
 
 test('quote 2: an ignored ticket beats open tickets', () => {
   const tickets = [ticket({ deadline: -10 * DAY, missed: 1 }), ticket()];
-  assert.equal(quote({ stats: stats(), tickets, now: NOW }), 'Per my last 40 emails...');
+  assert.equal(quote({ stats: stats(), tickets, now: NOW }), 'Per my last 40 emails, which were also my best 40 emails...');
+  assert.equal(quote({ stats: stats({ tickets_opened: 1 }), tickets, now: NOW }), 'Per my last email, which was also my best email...');
+  assert.equal(quote({ stats: stats({ tickets_opened: 1234 }), tickets, now: NOW }), 'Per my last 1,234 emails, which were also my best 1,234 emails...');
 });
 
 test('quote 3: open tickets, nothing ignored', () => {
   const tickets = [ticket({ deadline: -DAY, missed: 0, closes: 3 }), ticket()];
-  assert.equal(quote({ stats: stats(), tickets, now: NOW }), 'I have sent 40 emails. I can see that you have read them.');
+  assert.equal(quote({ stats: stats(), tickets, now: NOW }), "I've sent 40 emails. I can see you've read them. That's almost a reply.");
 });
 
 test('quote 4: inbox zero', () => {
@@ -102,10 +104,10 @@ test('event 1: a recent ticket on-call desks missed (the most recent such ticket
   const tickets = [older, missedRecent(), cleanRecent(), ransomOpen(), freshOpen()];
   assert.equal(
     eventLine({ stats: stats(), tickets, now: NOW }),
-    '2 on-call desks ignored CVE-2026-1 (VPN). Kevin burned 55 KEVIN. It was in the email.',
+    '2 on-call desks ignored CVE-2026-1 (VPN). I burned 55 KEVIN. It was in the email.',
   );
   const one = ticket({ deadline: -H, missed: 1, burned: (2n * K).toString(), cve_id: 'CVE-2026-4', product: 'Mail' });
-  assert.equal(eventLine({ stats: stats(), tickets: [one], now: NOW }), '1 on-call desk ignored CVE-2026-4 (Mail). Kevin burned 2 KEVIN. It was in the email.');
+  assert.equal(eventLine({ stats: stats(), tickets: [one], now: NOW }), '1 on-call desk ignored CVE-2026-4 (Mail). I burned 2 KEVIN. It was in the email.');
 });
 
 test('event 1 respects "recently": 24 hours live, 30 minutes on the fire drill', () => {
@@ -121,7 +123,7 @@ test('event 2: everyone on call answered a recent ticket', () => {
   const tickets = [cleanRecent(), ransomOpen(), freshOpen()];
   assert.equal(
     eventLine({ stats: stats(), tickets, now: NOW }),
-    'Everyone on call answered CVE-2026-2 before the deadline. Kevin does not have a template for this.',
+    "Everyone on call answered CVE-2026-2 before the deadline. I don't have a template for this. I'm making one.",
   );
 });
 
@@ -135,7 +137,7 @@ test('event 3: an open ransomware ticket', () => {
   const tickets = [ransomOpen(), freshOpen()];
   assert.equal(
     eventLine({ stats: stats(), tickets, now: NOW }),
-    'CVE-2026-3 (Broadcom VMware vCenter) is being used by ransomware crews. Kevin has asked humanity to patch it. Humanity is "looking into it".',
+    'Ransomware crews are using CVE-2026-3 (Broadcom VMware vCenter). I asked humanity to patch it. Humanity is "looking into it", which is nice of them.',
   );
 });
 
@@ -143,7 +145,7 @@ test('event 4: a ticket opened in the last 48 hours (the newest one)', () => {
   const older = ticket({ deadline: 9 * DAY, opened: -40 * H, vendor: 'Old', product: 'Thing' });
   assert.equal(
     eventLine({ stats: stats(), tickets: [older, freshOpen()], now: NOW }),
-    'New from CISA: Cisco BroadWorks. Kevin has requested that humanity restart its router. Humanity has declined.',
+    "New from CISA: Cisco BroadWorks. I've asked humanity to restart its router. Humanity has declined.",
   );
   const stale = ticket({ deadline: 9 * DAY, opened: -49 * H });
   assert.doesNotMatch(eventLine({ stats: stats(), tickets: [stale], now: NOW }), /New from CISA/);
@@ -153,11 +155,11 @@ test('event 5: the summary line', () => {
   const tickets = [ticket({ deadline: 9 * DAY, opened: -5 * DAY }), ticket({ deadline: -3 * DAY })];
   assert.equal(
     eventLine({ stats: stats({ on_call: 1 }), tickets, now: NOW }),
-    '1 open, 1 desk on call, 1,234 KEVIN burned so far. Kevin is fine. This is fine.',
+    "1 open, 1 desk on call, 1,234 KEVIN burned so far. I'm fine. This is fine.",
   );
   assert.equal(
     eventLine({ stats: stats({ on_call: 0, burned_total: '0' }), tickets: [], now: NOW }),
-    '0 open, 0 desks on call, 0 KEVIN burned so far. Kevin is fine. This is fine.',
+    "0 open, 0 desks on call, 0 KEVIN burned so far. I'm fine. This is fine.",
   );
 });
 
@@ -173,7 +175,7 @@ test('statusBoard puts the pieces together', () => {
   const b = statusBoard({ stats: stats(), tickets: [missedRecent(), ticket({ deadline: 5 * H })], now: NOW });
   assert.equal(b.label, 'KEVIN FROM IT');
   assert.equal(b.headline, '1 ticket due in under 24 hours');
-  assert.equal(b.quote, 'Per my last 40 emails...');
+  assert.equal(b.quote, 'Per my last 40 emails, which were also my best 40 emails...');
   assert.match(b.event, /ignored CVE-2026-1/);
   assert.match(b.next.text, /^Next deadline: November 14, /);
 });
@@ -181,21 +183,21 @@ test('statusBoard puts the pieces together', () => {
 // ---------- ticket notes ----------
 
 test('ticket note 1 and 2: expired tickets, by settled misses', () => {
-  assert.equal(ticketNote(ticket({ deadline: -H, missed: 3 }), NOW), 'Closed by the clock. 3 did not answer. I have updated the spreadsheet.');
+  assert.equal(ticketNote(ticket({ deadline: -H, missed: 3 }), NOW), "Closed by the clock. 3 didn't answer. I've updated the spreadsheet. It's a good spreadsheet.");
   assert.equal(ticketNote(ticket({ deadline: -H, missed: 0, ransomware: true }), NOW), 'Closed by the clock. Everyone answered. Suspicious.');
-  assert.equal(ticketNote(ticket({ deadline: -H, missed: 0 }), NOW, { unsettled: true }), 'Closed by the clock. I am still counting who answered.');
-  assert.equal(ticketNote(ticket({ deadline: -H, missed: 2 }), NOW, { unsettled: true }), 'Closed by the clock. 2 did not answer. I have updated the spreadsheet.');
+  assert.equal(ticketNote(ticket({ deadline: -H, missed: 0 }), NOW, { unsettled: true }), "Closed by the clock. I'm still counting who answered. I count slow, but I count right.");
+  assert.equal(ticketNote(ticket({ deadline: -H, missed: 2 }), NOW, { unsettled: true }), "Closed by the clock. 2 didn't answer. I've updated the spreadsheet. It's a good spreadsheet.");
 });
 
 test('ticket note 3: ransomware beats due-soon and no-replies, and states the chain rate', () => {
   const t = ticket({ deadline: 2 * H, ransomware: true, closes: 0 });
-  assert.equal(ticketNote(t, NOW), "Ransomware crews use this one. It is 5%. I don't make the rules. I do enforce them.");
+  assert.equal(ticketNote(t, NOW), "Ransomware crews use this one, so it's 5%. I don't make the rules. I do enforce them. That's the fun part.");
 });
 
 test('ticket note 4: due in under 24 hours beats no-replies', () => {
   assert.equal(
     ticketNote(ticket({ deadline: 23 * H, closes: 0 }), NOW),
-    'Due tomorrow. I have put it in bold. I have put it in red. I have put it in your calendar.',
+    "Due soon. I put it in bold. I put it in red. I put it in your calendar. Then I ran out of places.",
   );
 });
 
@@ -206,7 +208,7 @@ test('ticket note 5: no replies yet', () => {
 test('ticket note 6: rotation by id % 4', () => {
   for (let id = 0; id < 8; id++) assert.equal(ticketNote(ticket({ id, deadline: 3 * DAY, closes: 2 }), NOW), TICKET_ROTATION[id % 4]);
   assert.equal(TICKET_ROTATION.length, 4);
-  assert.equal(TICKET_ROTATION[2], 'Somebody marked this "low priority". It was not me.');
+  assert.equal(TICKET_ROTATION[2], 'Somebody marked this "low priority". It wasn\'t me. I\'d never.');
 });
 
 // ---------- my desk ----------
@@ -241,7 +243,7 @@ test('desk line: a pending burn beats the queue count, and names the latest sile
   const desk = onCall({ pending_burn: (50n * K).toString() });
   assert.equal(
     deskLine({ desk, tickets, statements: { [answered.id]: { status: 'fixed' } }, now: NOW }),
-    "You missed CVE-2026-11. Kevin is burning 50 KEVIN of what you committed. It isn't personal. It's in the contract.",
+    "You missed CVE-2026-11. I'm burning 50 KEVIN of what you committed. It isn't personal. It's in the contract.",
   );
 });
 
@@ -251,9 +253,9 @@ test('desk line: n unanswered open tickets', () => {
   const c = ticket();
   assert.equal(
     deskLine({ desk: onCall(), tickets: [a, b, c], statements: { [a.id]: { status: 'fixed' } }, now: NOW }),
-    'You have 2 tickets in your queue. Per my last 2 emails.',
+    "You've got 2 tickets in your queue. I emailed you about each one. They're some of my best emails.",
   );
-  assert.equal(deskLine({ desk: onCall(), tickets: [a], now: NOW }), 'You have 1 ticket in your queue. Per my last 1 email.');
+  assert.equal(deskLine({ desk: onCall(), tickets: [a], now: NOW }), "You've got 1 ticket in your queue. I emailed you about it. It's one of my best emails.");
 });
 
 test('desk line: queue clear', () => {
@@ -262,9 +264,9 @@ test('desk line: queue clear', () => {
 });
 
 test('action lines are the spec copy', () => {
-  assert.equal(ACTION_LINES.answered, 'Noted. That is one more reply than most people send.');
-  assert.equal(ACTION_LINES.onCall, 'Welcome to the rota. The pager is yours. It does not have an off switch.');
-  assert.equal(ACTION_LINES.clockedOut, 'Pager returned. Tokens returned. Kevin remains.');
+  assert.equal(ACTION_LINES.answered, "Noted. That's one more reply than most people send. I'm telling everyone.");
+  assert.equal(ACTION_LINES.onCall, "Welcome to the rota. The pager's yours. It doesn't have an off switch. I looked.");
+  assert.equal(ACTION_LINES.clockedOut, "Pager returned. Tokens returned. I'm still here. I'm always here.");
 });
 
 // ---------- shift and clock out ----------
@@ -272,7 +274,7 @@ test('action lines are the spec copy', () => {
 test('shift copy: end time and minimum shift in plain words', () => {
   const ends = Date.parse('2026-11-21T18:04:30Z');
   assert.equal(shiftEndsText(ends), 'Shift ends November 21, 18:04 UTC');
-  assert.equal(DESK_LINES.shiftRefused(ends), 'Your shift ends November 21, 18:04 UTC. You took the pager. The pager does not care.');
+  assert.equal(DESK_LINES.shiftRefused(ends), "Your shift ends November 21, 18:04 UTC. You took the pager. The pager doesn't care. I care a little.");
   assert.equal(minShiftText('604800000'), 'A shift is at least 7 days.');
   assert.equal(minShiftText('1800000'), 'A shift is at least 30 minutes.');
   assert.equal(durationWords(DAY), '1 day');
@@ -314,11 +316,11 @@ test('eventLine: the ignored line says "at least" while other desks are still un
   const t = ticket({ deadline: -H, missed: 2, burned: (375n * K).toString(), cve_id: 'CVE-2021-44228', product: 'Log4j2' });
   assert.equal(
     eventLine({ stats: { on_call: 4 }, tickets: [t], now: NOW, unsettled: true }),
-    'At least 2 on-call desks ignored CVE-2021-44228 (Log4j2). Kevin has burned 375 KEVIN so far. It was in the email.',
+    "At least 2 on-call desks ignored CVE-2021-44228 (Log4j2). I've burned 375 KEVIN so far. It was in the email.",
   );
   assert.equal(
     eventLine({ stats: { on_call: 4 }, tickets: [t], now: NOW, unsettled: false }),
-    '2 on-call desks ignored CVE-2021-44228 (Log4j2). Kevin burned 375 KEVIN. It was in the email.',
+    '2 on-call desks ignored CVE-2021-44228 (Log4j2). I burned 375 KEVIN. It was in the email.',
   );
 });
 
@@ -357,7 +359,7 @@ test('employee of the month copy', () => {
   assert.equal(EOTM.heading(NOW), 'Employee of the Month: November 2026');
   assert.equal(EOTM.heading(Date.parse('2026-12-01T00:00:00Z')), 'Employee of the Month: December 2026');
   assert.equal(EOTM.note, 'Answers are self-reported. A clicked "Fixed" proves a desk answered before CISA\'s deadline. It does not prove anything was patched.');
-  assert.equal(EOTM.empty, 'Nobody has taken the pager yet. The plaque is still in its bubble wrap.');
+  assert.equal(EOTM.empty, "Nobody's taken the pager yet. The plaque is still in its bubble wrap. I haven't popped any. Okay, I popped one.");
 });
 
 test('no line uses an em dash or other non-ASCII punctuation', () => {

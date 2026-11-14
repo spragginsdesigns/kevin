@@ -1,5 +1,6 @@
 // Everything Kevin says, as pure functions over plain chain data (stats, tickets, a desk, a clock).
 // The jokes are fixed copy; every number, CVE id, product and date in them comes from the arguments.
+// Kevin talks in the first person: sincere, proud of his emails, and sure the pager likes him.
 // Each list of rules is checked top down and the first true rule wins.
 import { countdown, countdownWords, fmtInt, fmtToken } from './format.js';
 import { monthName, monthOf } from './roster.js';
@@ -32,9 +33,12 @@ const monthDay = (ms) => {
 // ---------- status board ----------
 
 export const QUOTES = {
-  nobodyOnCall: 'The pager is on my desk. It is ringing. Nobody is on call.',
-  ignored: (opened) => `Per my last ${count(opened, 'email', 'emails')}...`,
-  open: (opened) => `I have sent ${count(opened, 'email', 'emails')}. I can see that you have read them.`,
+  nobodyOnCall: "Nobody's on call. The pager keeps ringing anyway. I think it's lonely.",
+  ignored: (opened) =>
+    opened === 1
+      ? 'Per my last email, which was also my best email...'
+      : `Per my last ${fmtInt(opened)} emails, which were also my best ${fmtInt(opened)} emails...`,
+  open: (opened) => `I've sent ${count(opened, 'email', 'emails')}. I can see you've read them. That's almost a reply.`,
   inboxZero: "Inbox zero. I don't trust it.",
 };
 
@@ -72,21 +76,21 @@ export function eventLine({ stats, tickets, now, kind = 'live', unsettled = fals
   if (ignored) {
     // settled misses only: while other desks are still waiting to be settled, these are lower bounds
     return unsettled
-      ? `At least ${count(num(ignored.missed), 'on-call desk', 'on-call desks')} ignored ${ignored.cve_id} (${ignored.product}). Kevin has burned ${fmtToken(ignored.burned)} KEVIN so far. It was in the email.`
-      : `${count(num(ignored.missed), 'on-call desk', 'on-call desks')} ignored ${ignored.cve_id} (${ignored.product}). Kevin burned ${fmtToken(ignored.burned)} KEVIN. It was in the email.`;
+      ? `At least ${count(num(ignored.missed), 'on-call desk', 'on-call desks')} ignored ${ignored.cve_id} (${ignored.product}). I've burned ${fmtToken(ignored.burned)} KEVIN so far. It was in the email.`
+      : `${count(num(ignored.missed), 'on-call desk', 'on-call desks')} ignored ${ignored.cve_id} (${ignored.product}). I burned ${fmtToken(ignored.burned)} KEVIN. It was in the email.`;
   }
   const clean = !unsettled && recent.find((t) => num(t.missed) === 0 && num(t.closes) > 0);
-  if (clean) return `Everyone on call answered ${clean.cve_id} before the deadline. Kevin does not have a template for this.`;
+  if (clean) return `Everyone on call answered ${clean.cve_id} before the deadline. I don't have a template for this. I'm making one.`;
   const open = tickets.filter((t) => isOpen(t, now)).sort(byDeadline);
   const ransom = open.find((t) => t.ransomware);
   if (ransom) {
-    return `${ransom.cve_id} (${ransom.vendor} ${ransom.product}) is being used by ransomware crews. Kevin has asked humanity to patch it. Humanity is "looking into it".`;
+    return `Ransomware crews are using ${ransom.cve_id} (${ransom.vendor} ${ransom.product}). I asked humanity to patch it. Humanity is "looking into it", which is nice of them.`;
   }
   const fresh = tickets
     .filter((t) => num(t.opened_at_ms) <= now && now - num(t.opened_at_ms) < NEW_TICKET_MS)
     .sort((a, b) => num(b.opened_at_ms) - num(a.opened_at_ms))[0];
-  if (fresh) return `New from CISA: ${fresh.vendor} ${fresh.product}. Kevin has requested that humanity restart its router. Humanity has declined.`;
-  return `${fmtInt(open.length)} open, ${count(num(stats?.on_call), 'desk', 'desks')} on call, ${fmtToken(stats?.burned_total)} KEVIN burned so far. Kevin is fine. This is fine.`;
+  if (fresh) return `New from CISA: ${fresh.vendor} ${fresh.product}. I've asked humanity to restart its router. Humanity has declined.`;
+  return `${fmtInt(open.length)} open, ${count(num(stats?.on_call), 'desk', 'desks')} on call, ${fmtToken(stats?.burned_total)} KEVIN burned so far. I'm fine. This is fine.`;
 }
 
 // The soonest open deadline, or null when nothing is open.
@@ -111,19 +115,19 @@ export function statusBoard(args) {
 export const TICKET_ROTATION = [
   'Have you tried turning it off and patching it?',
   'CISA opened this ticket, not me. I just work here.',
-  'Somebody marked this "low priority". It was not me.',
-  'Please do not reply-all.',
+  'Somebody marked this "low priority". It wasn\'t me. I\'d never.',
+  "Please don't reply-all. Last time was a long week.",
 ];
 
 // `unsettled` as in eventLine: while some on-call desk still has a miss waiting to be settled, an
 // expired ticket with `missed: 0` is not yet proof that everyone answered.
 export function ticketNote(t, now, { unsettled = false } = {}) {
   if (isExpired(t, now)) {
-    if (num(t.missed) > 0) return `Closed by the clock. ${fmtInt(t.missed)} did not answer. I have updated the spreadsheet.`;
-    return unsettled ? 'Closed by the clock. I am still counting who answered.' : 'Closed by the clock. Everyone answered. Suspicious.';
+    if (num(t.missed) > 0) return `Closed by the clock. ${fmtInt(t.missed)} didn't answer. I've updated the spreadsheet. It's a good spreadsheet.`;
+    return unsettled ? "Closed by the clock. I'm still counting who answered. I count slow, but I count right." : 'Closed by the clock. Everyone answered. Suspicious.';
   }
-  if (t.ransomware) return `Ransomware crews use this one. It is ${num(t.burn_bps) / 100}%. I don't make the rules. I do enforce them.`;
-  if (num(t.deadline_ms) - now < DAY) return 'Due tomorrow. I have put it in bold. I have put it in red. I have put it in your calendar.';
+  if (t.ransomware) return `Ransomware crews use this one, so it's ${num(t.burn_bps) / 100}%. I don't make the rules. I do enforce them. That's the fun part.`;
+  if (num(t.deadline_ms) - now < DAY) return "Due soon. I put it in bold. I put it in red. I put it in your calendar. Then I ran out of places.";
   if (num(t.closes) === 0) return "No replies yet. I can see you've opened it.";
   return TICKET_ROTATION[num(t.id) % 4];
 }
@@ -133,13 +137,14 @@ export function ticketNote(t, now, { unsettled = false } = {}) {
 export const DESK_LINES = {
   noDesk: "You don't have a desk. Honestly, well done.",
   holder: 'You hold KEVIN. Nothing is expected of you. Nothing will burn. I envy you.',
-  queue: (n) => `You have ${count(n, 'ticket', 'tickets')} in your queue. Per my last ${count(n, 'email', 'emails')}.`,
+  queue: (n) =>
+    `You've got ${count(n, 'ticket', 'tickets')} in your queue. I emailed you about ${n === 1 ? 'it' : 'each one'}. ${n === 1 ? "It's one of my best emails." : "They're some of my best emails."}`,
   clear: 'Queue is clear. Go home. Keep the pager on.',
   pendingBurn: (cve, amount) =>
-    `You missed ${cve}. Kevin is burning ${fmtToken(amount)} KEVIN of what you committed. It isn't personal. It's in the contract.`,
+    `You missed ${cve}. I'm burning ${fmtToken(amount)} KEVIN of what you committed. It isn't personal. It's in the contract.`,
   clockOutRefused: "You can't clock out with tickets in your queue. Nobody can. I've tried.",
   behind: (n) => `Your desk has ${count(n, 'expired ticket', 'expired tickets')} to settle. Settle first, then clock out.`,
-  shiftRefused: (endsMs) => `Your shift ends ${whenText(endsMs)}. You took the pager. The pager does not care.`,
+  shiftRefused: (endsMs) => `Your shift ends ${whenText(endsMs)}. You took the pager. The pager doesn't care. I care a little.`,
 };
 
 // "November 21, 18:04 UTC"
@@ -178,9 +183,9 @@ export function clockOutBlock({ desk, tickets, statements, now }) {
 }
 
 export const ACTION_LINES = {
-  answered: 'Noted. That is one more reply than most people send.',
-  onCall: 'Welcome to the rota. The pager is yours. It does not have an off switch.',
-  clockedOut: 'Pager returned. Tokens returned. Kevin remains.',
+  answered: "Noted. That's one more reply than most people send. I'm telling everyone.",
+  onCall: "Welcome to the rota. The pager's yours. It doesn't have an off switch. I looked.",
+  clockedOut: "Pager returned. Tokens returned. I'm still here. I'm always here.",
 };
 
 // Open tickets this desk has not answered: what blocks clock_out, and the queue count.
@@ -221,5 +226,5 @@ export function deskLine({ desk, tickets = [], statements = {}, now }) {
 export const EOTM = {
   heading: (now) => `Employee of the Month: ${monthName(monthOf(now))}`,
   note: 'Answers are self-reported. A clicked "Fixed" proves a desk answered before CISA\'s deadline. It does not prove anything was patched.',
-  empty: 'Nobody has taken the pager yet. The plaque is still in its bubble wrap.',
+  empty: "Nobody's taken the pager yet. The plaque is still in its bubble wrap. I haven't popped any. Okay, I popped one.",
 };

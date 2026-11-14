@@ -11,7 +11,7 @@ export function StatusBoard({ stats, tickets, now, kind, roster, loaded, error, 
         <h2 className="board-headline" id="board-h">
           Reading the queue...
         </h2>
-        <p className="board-event">Kevin is opening his email. It takes a second.</p>
+        <p className="board-event">I'm opening my email. It takes a second.</p>
       </section>
     );
   }

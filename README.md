@@ -177,9 +177,9 @@ silence. It does not rank security.
 Every line Kevin says is picked by a rule in `web/src/kevinSays.js` from what is on chain and in the catalog:
 the number of tickets open, the CVE and product of the one that just expired, how many desks ignored it and how
 many KEVIN that burned, whether an open bug is ransomware-flagged, whether a deadline is inside 24 hours. The
-numbers, ids, names and dates are real. The jokes are jokes: Kevin has not in fact asked humanity to restart its
-router. No language model runs anywhere in this project; the lines are fixed text with data filled in, and
-`npm test` covers every rule.
+numbers, ids, names and dates are real. Kevin talks in the first person, and the jokes are jokes: he has not in
+fact asked humanity to restart its router. No language model runs anywhere in this project; the lines are fixed
+text with data filled in, and `npm test` covers every rule.
 
 ## How NEAR is used
 

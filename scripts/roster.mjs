@@ -69,7 +69,7 @@ runMain(async () => {
   const heading = `Employee of the Month: ${MONTHS[now.getUTCMonth()]} ${now.getUTCFullYear()} on ${settings.contractId} (${settings.network})`;
   if (rows.length === 0) {
     console.log(heading);
-    console.log('Nobody has taken the pager yet. The plaque is still in its bubble wrap.');
+    console.log("Nobody's taken the pager yet. The plaque is still in its bubble wrap. I haven't popped any. Okay, I popped one.");
     return 0;
   }
   printTable(rows, heading);
